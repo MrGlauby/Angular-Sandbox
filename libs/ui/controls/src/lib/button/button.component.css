@@ -1,0 +1,22 @@
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .button.primary {
+    background-color: rgb(72, 124, 134);
+    color: white;
+  }
+  
+  .button.primary:hover {
+    background-color: darkblue;
+  }
+  
+  .button.disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }
+  

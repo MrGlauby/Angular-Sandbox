@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@angular-concepts-sandbox/controls": ["libs/ui/controls/src/index.ts"],
       "@angular-concepts-sandbox/homepage": [
         "libs/conceptssandbox/homepage/src/index.ts"
       ]

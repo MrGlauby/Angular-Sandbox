@@ -1,0 +1,8 @@
+<button
+  [disabled]="isDisabled"
+  class="button"
+  [ngClass]="{ primary: isPrimary }"
+  (click)="onClick($event)"
+>
+  {{ label }}
+</button>

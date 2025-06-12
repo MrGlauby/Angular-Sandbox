@@ -17,10 +17,83 @@
   }
 </div>
 
-<!-- 
-Create a program that introducing a number it return a list that starts on 1 and ends with that number. Every time a number in that list is divisible by 3 replace the number with "fizz". Every time a number is divisible by 5 replace the number with "buzz".
-When a number is divisible between 3 and 5 at the same time replace with "fizzbuzz". -->
+<h2>Shoppingliste</h2>
 
-<!-- 
-Erstellen Sie ein Programm, das eine Zahl einführt und eine Liste zurückgibt, die bei 1 beginnt und mit dieser Zahl endet. Jedes Mal, wenn eine Zahl in dieser Liste durch 3 teilbar ist, ersetzt es die Zahl durch „fizz“. Jedes Mal, wenn eine Zahl durch 5 teilbar ist, ersetze die Zahl durch „buzz“.
-Wenn eine Zahl gleichzeitig durch 3 und 5 teilbar ist, ersetze sie durch „fizzbuzz“. -->
+<div class="wrapper-shopping-list">
+  <div class="shopping-list">
+    <div>
+      @for(item of productsList; track $index){
+      <li class="product">
+        Stk. {{ item.name }} {{ item.price }} € =
+
+        <lib-form-input
+          [value]="item.quantity"
+          [isReadonly]="true"
+        ></lib-form-input>
+
+        <lib-button
+          [label]="'+'"
+          [isPrimary]="true"
+          (customClick)="incrementQuantity(item)"
+        ></lib-button>
+
+        <lib-button
+          [label]="'-'"
+          [isPrimary]="true"
+          (customClick)="deleteProduct(item)"
+        ></lib-button>
+      </li>
+      }
+    </div>
+  </div>
+
+
+
+
+  <div class="textArea-wrapper">
+    <p>Add a new Product!</p>
+
+    <lib-create-product
+      [placeholder]="'Name'"
+      (valueChanged)="onNameChanged($event)"
+    ></lib-create-product>
+
+    <lib-create-product
+      [placeholder]="'Price'"
+      (valueChanged)="onPriceChanged($event)"
+    ></lib-create-product>
+
+    <div>
+      <lib-button
+        [label]="'+'"
+        [isPrimary]="true"
+        (customClick)="addNewProduct()"
+      ></lib-button>
+    </div>
+  </div>
+
+
+
+
+
+  
+  <!-- ................ -->
+</div>
+
+<div class="wrapper-warenkorb">
+  <h3>Total =</h3>
+
+  <lib-form-input [value]="totalQuantity" [isReadonly]="true"></lib-form-input>
+
+  <lib-form-input
+    [value]="totalPrice"
+    [isReadonly]="true"
+    [unit]="'€'"
+  ></lib-form-input>
+
+  <lib-button
+    [label]="'Warenkorb leeren!'"
+    [isPrimary]="true"
+    (customClick)="deleteBasket()"
+  ></lib-button>
+</div>

@@ -1,0 +1,103 @@
+
+
+
+
+/Users/thomasglaubauf/LOCAL/1. WebDev-WorkMacbook/Angular/AngularConceptsSandbox/apps
+
+/Users/thomasglaubauf/LOCAL/1. WebDev-WorkMacbook/Angular/AngularConceptsSandbox/libs
+
+
+    apps/
+    └── AngularConceptsSandbox/    
+        └── public/    
+        └── src/    
+    libs/
+        └── conceptssandbox/
+            └── homepage
+                └── src
+                    └── lib
+                        └── homepage
+                            └── homepage.comp.css
+                            └── homepage.comp.html
+                            └── homepage.comp.spec.ts
+                            └── homepage.comp.ts
+                        └── index.ts
+                        └── test-setuop.ts
+                        └── interface
+
+                        └── services
+                            └── product.interface
+                                    src
+                                    └── lib
+                                        └──product.interface
+              
+        └── ui/
+            └──controls
+                └──src
+                    └──lib
+                        └──button
+                           └── button.component.css
+                           └── button.component.html
+                           └── button.component.spec.ts
+                           └── button.component.ts
+                    └── index.ts
+                    └── test-setup.ts
+
+    .editorconfig     
+    .prettierignore
+    .prettierrc
+    etc...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 apps/
+    └── AngularConceptsSandbox/    
+    libs/
+    └── AngularConceptsSandbox/
+        └── user-access/
+            └── src/
+              └── lib/
+                   ├── user-access/
+                   │    ├── user-access.component.ts
+                   ├── login/
+                   │    ├── login.component.ts
+                   └── registration/
+                        ├── registration.component.ts
+        └── workspace/
+    └── ui/
+        └── controls/
+            └── input-control/
+            └── radio-button/
+                ├── src/
+                │   ├── lib/
+                │   │   └── radio-button/              <-- Verzeichnis für die spezifische Komponente
+                │   │       ├── radio-button.component.html
+                │   │       ├── radio-button.component.scss
+                │   │       ├── radio-button.component.ts
+                │   │       └── radio-option.model.ts  <-- HIER kommt das Interface rein!
+                │   ├── index.ts                     <-- Library Entry Point (wichtig!)
+                │   └── test-setup.ts
+                ├── jest.config.ts
+                ├── package.json
+                ├── project.json
+                └── tsconfig.lib.json

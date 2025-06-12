@@ -1,0 +1,13 @@
+<div class="wrapper-form-input">
+  <input class="form-input"
+    type="number"
+    [value]="value"
+    [placeholder]="placeholder"
+    (input)="onInputChange($event)"
+    [readOnly]="isReadonly"
+  />
+   @if (unit) {
+    <span class="unit-symbol">{{ unit }}</span>
+  }
+  
+</div>

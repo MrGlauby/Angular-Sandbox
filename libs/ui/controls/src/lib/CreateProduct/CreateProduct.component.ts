@@ -22,6 +22,8 @@ export class CreateProductComponent implements OnInit {
     name: new FormControl(''),
   });
 
+
+
   ngOnInit(): void {
     this.productFormGroup.get('name')?.valueChanges.subscribe(newValue => {
       this.valueChanged.emit(newValue || '');

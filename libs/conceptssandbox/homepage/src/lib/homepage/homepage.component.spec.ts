@@ -60,5 +60,41 @@ describe('HomepageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
 
+  // ANGULAR TESTS ohne Library mit Testbed und Jesmine + Karma und die Methode testen!
+  // Check die Codevoverage
+
+  describe('updatePost', () => {
+    it('sollte das updatedData Objekt korrekt mit neuen Werten erstellen', () => {
+      // Test für Spread Operator und Datenerstellung
+    });
+
+    // it('sollte den ProductService mit der richtigen ID aufrufen', () => {
+    //   // Test für Service-Aufruf mit postToUpdate.id
+    // });
+
+    // it('sollte den ProductService mit den korrekten updatedData aufrufen', () => {
+    //   // Test für Service-Aufruf mit richtigen Parametern
+    // });
+
+    // it('sollte den Post im posts Array finden und ersetzen', () => {
+    //   // Test für findIndex und Array-Update
+    // });
+
+    // it('sollte den Post nicht ersetzen wenn er nicht gefunden wird', () => {
+    //   // Test für index === -1 Fall
+    // });
+
+    // it('sollte Fehler abfangen und in der Konsole ausgeben', () => {
+    //   // Test für catch Block und console.error
+    // });
+
+    // it('sollte das posts Array unverändert lassen bei Service-Fehlern', () => {
+    //   // Test für Fehlerbehandlung ohne Array-Änderung
+    // });
+
+    // it('sollte die Methode erfolgreich abschließen ohne Rückgabewert', () => {
+    //   // Test für Promise<void> Return Type
+    // });
+  });
+});

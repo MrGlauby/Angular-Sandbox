@@ -1,6 +1,17 @@
 <div class="wrapper">
   <p>Homepage works!</p>
 
+  <!-- Methoden Training Array -->
+
+  <ul>
+    @for (item of thingsWithArrays; track $index) {
+    <li>
+      {{ item }}
+    </li>
+
+    }
+  </ul>
+
   <lib-button
     [label]="'Click me'"
     [isPrimary]="true"
@@ -17,6 +28,7 @@
   }
 </div>
 
+<!-- - ShoppingList -  -->
 <h2>Shoppingliste</h2>
 
 <div class="wrapper-shopping-list">
@@ -47,9 +59,6 @@
     </div>
   </div>
 
-
-
-
   <div class="textArea-wrapper">
     <p>Add a new Product!</p>
 
@@ -72,11 +81,6 @@
     </div>
   </div>
 
-
-
-
-
-  
   <!-- ................ -->
 </div>
 
@@ -96,4 +100,44 @@
     [isPrimary]="true"
     (customClick)="deleteBasket()"
   ></lib-button>
+</div>
+
+<!-- All Posts API! -->
+
+
+<!-- ASL NÄCHSTE INPUTFELD FPR EINGABE DINS! -->
+
+<div>
+  <h2>Posts</h2>
+
+  <div>
+    <lib-button
+      [label]="'Create New'"
+      [isPrimary]="true"
+      (customClick)="createPost()"
+    ></lib-button>
+  </div>
+
+  <div>
+    <h3>Neuer Eintrag</h3>
+        <lib-create-product
+      [placeholder]="'title'"
+      (valueChanged)="onNameChanged($event)"
+    ></lib-create-product>
+
+    <lib-create-product
+      [placeholder]="'Body'"
+      (valueChanged)="onPriceChanged($event)"
+    ></lib-create-product>
+  </div>
+
+  @if (posts.length > 0) {
+  <ul>
+    @for (post of posts; track post.id) {
+    <li>{{ post.title }}</li>
+    }
+  </ul>
+  } @else {
+  <p>Keine Posts geladen</p>
+  }
 </div>

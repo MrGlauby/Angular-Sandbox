@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProductServiceTsService } from '../service/product.service.ts.service';
-import { Product } from '../models/product.interface';
+import { Post, Product } from '../models/product.interface';
 import { ButtonComponent } from '@angular-concepts-sandbox/controls';
 import { FormInputComponent } from '@angular-concepts-sandbox/controls';
 import { CreateProductComponent } from '@angular-concepts-sandbox/controls';
@@ -20,7 +20,43 @@ import { CreateProductComponent } from '@angular-concepts-sandbox/controls';
     CreateProductComponent,
   ],
 })
-export class HomepageComponent {
+export class HomepageComponent implements OnInit {
+  //  Methoden Training Arrays
+
+  public thingsWithArrays = [
+    'apple',
+    'banana',
+    'cherry',
+    'date',
+    'elderberry',
+    'fig',
+    'grape',
+  ];
+
+  public giveMeAllThings() {
+    return this.thingsWithArrays;
+  }
+
+  // Ausgeben und UPDATEN!
+  public updateArray(newstring: string): string[] {
+    this.thingsWithArrays.push(newstring);
+    return this.thingsWithArrays;
+  }
+
+  // im HTML zeigen! mit controlFlows! NgFor!
+
+  // Füge ein Element am Anfang des Arrays hinzu.
+  public addElementAtStart(newElement: string): void {
+    this.thingsWithArrays.unshift(newElement);
+  }
+
+  // mit dem button!
+  // <button (click)="addElementAtStart('asdasd')">Am Anfang einfügen</button>
+
+  // <ul>
+  //   <li *ngFor="let fruit of thingsWithArrays">{{ fruit }}</li>
+  // </ul>
+
   // FizzBuzz!-------------------------------------------------
   // <!--
   // Create a program that introducing a number it return a list that starts on 1 and ends with that number. Every time a number in that list is divisible by 3 replace the number with "fizz". Every time a number is divisible by 5 replace the number with "buzz".
@@ -52,6 +88,8 @@ export class HomepageComponent {
   // ShoppingLIST!-------------------------------------------------
   ngOnInit(): void {
     this.getAllProducts();
+    this.getAllProducts();
+    this.getAllPosts(); // ← Das fehlte!
   }
 
   // ShoppingListe
@@ -59,7 +97,7 @@ export class HomepageComponent {
     ProductServiceTsService
   );
 
-  // Ja, public productsList: Product[] = []; wird deklariert, um eine initial leere Liste zu haben. Diese Liste wird dann mit den Produkten gefüllt, die vom Service (this.productService.getAllProducts()) abgerufen werden, und dient dazu, diese Produkte in der Komponente zu speichern (z.B. für die Anzeige im Template).
+  // Diese Methoden Umscreiben, damit sie die Service Methoden nutzen! ----------
   public productsList: Product[] = [];
   public selectedProduct: Product | undefined;
 
@@ -106,12 +144,7 @@ export class HomepageComponent {
     this.productsList.forEach((product) => (product.quantity = 0));
   }
 
-
-
-
-
-
-
+  // ------------------------------------ ADD NEW PRODUCT ------------------------------------
   public newProductName: string = '';
   public newProductPrice: number = 0;
 
@@ -136,6 +169,62 @@ export class HomepageComponent {
     this.newProductPrice = 0;
   }
 
+  // Fun with Arrays and Objects!-------------------------------------------------
 
+  // ngOnInit(): void {// }
+  // neuer Eintrag!
+  public posts: Post[] = [];
+  public async getAllPosts(): Promise<void> {
+    try {
+      this.posts = await this.productService.getAllPosts();
+    } catch (error) {
+      console.error('Fehler beim Laden der Posts:', error);
+    }
+  }
+
+  // Neuen Eintrag generieren!
+  public async createPost(): Promise<void> {
+    try {
+      const newPost = await this.productService.createPost({
+        title: '',
+        body: '',
+        userId: 1,
+      });
+
+      // RICHTIG: Füge den neuen Post zum bestehenden Array hinzu
+      this.posts.push(newPost);
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Posts:', error);
+    }
+  }
+
+  // Upate Eintrag - Event!  
+  public async updatePost(postToUpdate: Post, newTitle: string, newBody: string): Promise<void> {
+  try {
+    // Erstelle ein Update-Objekt mit den neuen Werten
+    const updatedData = { ...postToUpdate, title: newTitle, body: newBody };
+
+    const updatedPost = await this.productService.updatePostById(
+      postToUpdate.id,
+      updatedData // Sende die neuen Daten
+    );
+
+    const index = this.posts.findIndex(post => post.id === postToUpdate.id);
+    if (index !== -1) {
+      this.posts[index] = updatedPost;
+    }
+  } catch (error) {
+    console.error('Fehler beim Updaten eines Posts:', error);
+  }
+}
   
+  
+  
+  
+  
+  
+  
+  
+  
+  // Eintrag löschen!
 }

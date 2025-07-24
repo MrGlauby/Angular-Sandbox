@@ -104,7 +104,6 @@
 
 <!-- All Posts API! -->
 
-
 <!-- ASL NÄCHSTE INPUTFELD FPR EINGABE DINS! -->
 
 <div>
@@ -120,21 +119,22 @@
 
   <div>
     <h3>Neuer Eintrag</h3>
-        <lib-create-product
+    <lib-create-product
       [placeholder]="'title'"
-      (valueChanged)="onNameChanged($event)"
+      (valueChanged)="onTitleChanged($event)"
     ></lib-create-product>
 
     <lib-create-product
       [placeholder]="'Body'"
-      (valueChanged)="onPriceChanged($event)"
+      (valueChanged)="onBodyChanged($event)"
     ></lib-create-product>
   </div>
 
-  @if (posts.length > 0) {
+  @if (allPosts().length > 0) {
   <ul>
-    @for (post of posts; track post.id) {
+    @for (post of allPosts(); track post.id) {
     <li>{{ post.title }}</li>
+    <li>{{ post.body }}</li>
     }
   </ul>
   } @else {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { Product, Post } from '../models/product.interface';
 import { CalendarEvent } from '../models/product.interface';
 import { environment } from 'apps/AngularConceptsSandbox/src/app/environments/environment';
@@ -84,21 +84,62 @@ export class ProductServiceTsService {
 
   // ------------------------------------------------------- API PRACTICE
 
+  // old---------------- ohne signals
+  //  private readonly API_URL = environment.apiUrls.posts;
+
+  //   public async getAllPosts(): Promise<Post[]> {
+  //     try {
+  //       const response = await fetch(this.API_URL);
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       return await response.json();
+  //     } catch (error) {
+  //       console.error('Fehler beim Laden der Posts:', error);
+  //       throw error;
+  //     }
+  //   }
+
+
+
+  // new---------------- with signals
   private readonly API_URL = environment.apiUrls.posts;
 
-  public async getAllPosts(): Promise<Post[]> {
+  // 1. Privates, beschreibbares Signal
+  #posts: WritableSignal<Post[]> = signal([]);
+
+  // 2. Öffentliches, nur lesbares Signal
+  public readonly posts: Signal<Post[]> = this.#posts.asReadonly();
+
+  public async getAllPosts(): Promise<void> {
+    // <-- Gibt nichts mehr zurück (void)
     try {
       const response = await fetch(this.API_URL);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return await response.json();
+      const postsData = await response.json();
+
+      // 3. Nur das interne Signal wird aktualisiert
+      this.#posts.set(postsData);
     } catch (error) {
       console.error('Fehler beim Laden der Posts:', error);
-      throw error;
+      // Optional: Fehler in einem eigenen Error-Signal speichern
+      // this.error.set('Laden fehlgeschlagen');
     }
   }
 
+
+  // ----------------------------------------------------------------
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
+  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
   public async getPostById(id: number): Promise<Post> {
     try {
       const response = await fetch(`${this.API_URL}/${id}`);

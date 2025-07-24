@@ -173,10 +173,24 @@ export class HomepageComponent implements OnInit {
 
   // ngOnInit(): void {// }
   // neuer Eintrag!
-  public posts: Post[] = [];
+
+  public newPostTitle: string = '';
+  public newPostBody: string = '';
+
+  public onTitleChanged(name: string): void {
+    this.newPostTitle = name;
+  }
+
+  public onBodyChanged(body: string): void {
+    this.newPostBody = body;
+  }
+
+  allPosts = this.productService.posts; // ← Signal-Referenz
+  // public posts: Post[] = [];
+
   public async getAllPosts(): Promise<void> {
     try {
-      this.posts = await this.productService.getAllPosts();
+      await this.productService.getAllPosts();
     } catch (error) {
       console.error('Fehler beim Laden der Posts:', error);
     }
@@ -186,45 +200,48 @@ export class HomepageComponent implements OnInit {
   public async createPost(): Promise<void> {
     try {
       const newPost = await this.productService.createPost({
-        title: '',
-        body: '',
+        title: this.newPostTitle,
+        body: this.newPostBody,
         userId: 1,
       });
 
       // RICHTIG: Füge den neuen Post zum bestehenden Array hinzu
-      this.posts.push(newPost);
+      await this.getAllPosts(); // Neu laden oder...
     } catch (error) {
       console.error('Fehler beim Erstellen des Posts:', error);
     }
   }
 
-  // Upate Eintrag - Event!  
-  public async updatePost(postToUpdate: Post, newTitle: string, newBody: string): Promise<void> {
-  try {
-    // Erstelle ein Update-Objekt mit den neuen Werten
-    const updatedData = { ...postToUpdate, title: newTitle, body: newBody };
+  // Upate Eintrag - Event!
+  public async updatePost(
+    postToUpdate: Post,
+    newTitle: string,
+    newBody: string
+  ): Promise<void> {
+    try {
+      // Erstelle ein Update-Objekt mit den neuen Werten
+      const updatedData = { ...postToUpdate, title: newTitle, body: newBody };
 
-    const updatedPost = await this.productService.updatePostById(
-      postToUpdate.id,
-      updatedData // Sende die neuen Daten
-    );
+      const updatedPost = await this.productService.updatePostById(
+        postToUpdate.id,
+        updatedData // Sende die neuen Daten
+      );
+      await this.productService.updatePostById(postToUpdate.id, updatedData);
 
-    const index = this.posts.findIndex(post => post.id === postToUpdate.id);
-    if (index !== -1) {
-      this.posts[index] = updatedPost;
+      // Signal neu laden
+      await this.getAllPosts();
+    } catch (error) {
+      console.error('Fehler beim Updaten eines Posts:', error);
     }
-  } catch (error) {
-    console.error('Fehler beim Updaten eines Posts:', error);
   }
-}
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   // Eintrag löschen!
+  public async deletePost(id: number): Promise<void> {
+    try {
+      await this.productService.deletePostById(id);
+      await this.getAllPosts();
+    } catch (error) {
+      console.error('Fehler beim Löschen des Posts:', error);
+    }
+  }
 }

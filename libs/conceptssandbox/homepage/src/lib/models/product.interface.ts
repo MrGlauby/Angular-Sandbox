@@ -26,3 +26,9 @@ export interface Post {
 }
 
 
+export interface PostsState {
+  posts: Post[];
+  isLoading: boolean;
+  error: string | null;
+}
+

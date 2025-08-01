@@ -2,6 +2,13 @@ import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { Product, Post } from '../models/product.interface';
 import { CalendarEvent } from '../models/product.interface';
 import { environment } from 'apps/AngularConceptsSandbox/src/app/environments/environment';
+
+import { signalStore, withState, withMethods, patchState } from '@ngrx/signals';
+
+
+
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -82,7 +89,15 @@ export class ProductServiceTsService {
     }
   }
 
+
+
+
+  
+
   // ------------------------------------------------------- API PRACTICE
+  // -------------------------------------------------------HIER WURDE ALLES AUSGEKLAMMERT WEIL ALLES JETZT IM STORE IST!
+  // -------------------------------------------------------HIER WURDE ALLES AUSGEKLAMMERT WEIL ALLES JETZT IM STORE IST!
+  // -------------------------------------------------------HIER WURDE ALLES AUSGEKLAMMERT WEIL ALLES JETZT IM STORE IST!
 
   // old---------------- ohne signals
   //  private readonly API_URL = environment.apiUrls.posts;
@@ -103,106 +118,140 @@ export class ProductServiceTsService {
 
 
   // new---------------- with signals
-  private readonly API_URL = environment.apiUrls.posts;
+  // API Training with Signals -> was mache ich damit? Noch fehlen weiere Buttons, um die Posts zu bearbeiten, zu löschen und zu aktualisieren.
+  // private readonly API_URL = environment.apiUrls.posts;
 
-  // 1. Privates, beschreibbares Signal
-  #posts: WritableSignal<Post[]> = signal([]);
+  // // 1. Privates, beschreibbares Signal
+  // #posts: WritableSignal<Post[]> = signal([]);
 
-  // 2. Öffentliches, nur lesbares Signal
-  public readonly posts: Signal<Post[]> = this.#posts.asReadonly();
+  // // 2. Öffentliches, nur lesbares Signal
+  // public readonly posts: Signal<Post[]> = this.#posts.asReadonly();
 
-  public async getAllPosts(): Promise<void> {
-    // <-- Gibt nichts mehr zurück (void)
-    try {
-      const response = await fetch(this.API_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const postsData = await response.json();
+  // public async getAllPosts(): Promise<void> {
+  //   try {
+  //     const response = await fetch(this.API_URL);
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const postsData = await response.json();
 
-      // 3. Nur das interne Signal wird aktualisiert
-      this.#posts.set(postsData);
-    } catch (error) {
-      console.error('Fehler beim Laden der Posts:', error);
-      // Optional: Fehler in einem eigenen Error-Signal speichern
-      // this.error.set('Laden fehlgeschlagen');
-    }
-  }
+  //     // 3. Nur das interne Signal wird aktualisiert
+  //     this.#posts.set(postsData);
+  //   } catch (error) {
+  //     console.error('Fehler beim Laden der Posts:', error);
+  //     // Optional: Fehler in einem eigenen Error-Signal speichern
+  //     // this.error.set('Laden fehlgeschlagen');
+  //   }
+  // }
+
+
+
+
+  // interface Post { 
+  //   id: number; 
+  //   title: string; 
+  //   body: string; 
+  // } 
+  
+  // export const PostsStore = signalStore( { initialState: { 
+  //     posts: [] as Post[], 
+  //     isLoading: false, 
+  //     error: null as string | null, }, 
+  //     withComputed: (store) => ({ hasPosts: computed(() => store.posts().length > 0), }), 
+  //     withMethods: (store) => ({ async getAllPosts() { patchState(store, { isLoading: true, error: null }); 
+  //     try { 
+  //       const response = await fetch(environment.apiUrls.posts); 
+  //       if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); 
+  //     }
+  //      const postsData = await response.json(); 
+  //      patchState(store, { 
+  //       posts: postsData, isLoading: false }); } 
+  //       catch (error: any) { 
+  //         patchState(store, { error: error.message, isLoading: false });
+  //        } 
+  //       },
+  //      }), 
+  //     }); 
+        
+        // ``` In deiner Komponente könntest du den Store dann so verwenden: ```typescript` import { Component } from '@angular/core'; import { PostsStore } from './posts.store'; // Pfad anpassen import { inject } from '@angular/core'; @Component({ selector: 'posts-list', templateUrl: './posts-list.component.html', standalone: true, }) export class PostsListComponent { postsStore = inject(PostsStore); constructor() { this.postsStore.getAllPosts(); // Daten beim Initialisieren laden } }
+
+
+
+
+
 
 
   // ----------------------------------------------------------------
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  // RESTLICHE SIGNALS!!!!!!!!!!!!!!!!!!!!!!!!!!!!-
-  public async getPostById(id: number): Promise<Post> {
-    try {
-      const response = await fetch(`${this.API_URL}/${id}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error(`Fehler beim Laden des Posts ${id}:`, error);
-      throw error;
-    }
-  }
 
-  public async createPost(post: Omit<Post, 'id'>): Promise<Post> {
-    try {
-      const response = await fetch(this.API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(post),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Fehler beim Erstellen des Posts:', error);
-      throw error;
-    }
-  }
+  // public async getPostById(id: number): Promise<void> {
+  //   try {
+  //     const response = await fetch(`${this.API_URL}/${id}`);
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const getDataById = await response.json();
+  //     this.#posts.update((currentPosts) => currentPosts.map(post => post.id === id ? getDataById : post));
+  //   } catch (error) {
+  //     console.error(`Fehler beim Laden des Posts ${id}:`, error);
+  //     throw error;
+  //   }
+  // }
 
-  public async updatePostById(id: number, post: Post): Promise<Post> {
-    try {
-      const response = await fetch(`${this.API_URL}/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(post),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error(`Fehler beim Aktualisieren des Posts ${id}:`, error);
-      throw error;
-    }
-  }
+  // public async createPost(post: Omit<Post, 'id'>): Promise<void> {
+  //   try {
+  //     const response = await fetch(this.API_URL, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(post),
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const newPost = await response.json();
+  //     this.#posts.update((currentPosts) => [...currentPosts, newPost]);
+  //   } catch (error) {
+  //     console.error('Fehler beim Erstellen des Posts:', error);
+  //     throw error;
+  //   }
+  // }
 
-  public async deletePostById(id: number): Promise<void> {
-    try {
-      const response = await fetch(`${this.API_URL}/${id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      // DELETE requests typically don't return content
-    } catch (error) {
-      console.error(`Fehler beim Löschen des Posts ${id}:`, error);
-      throw error;
-    }
-  }
+  // public async updatePostById(id: number, post: Post): Promise<void> {
+  //   try {
+  //     const response = await fetch(`${this.API_URL}/${id}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(post),
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const updatedPostById = await response.json();
+  //     this.#posts.update((currentPosts) => currentPosts.map((p) => (p.id === id ? updatedPostById : p))
+  //     );
+  //   } catch (error) {
+  //     console.error(`Fehler beim Aktualisieren des Posts ${id}:`, error);
+  //     throw error;
+  //   }
+  // }
+
+  // public async deletePostById(id: number): Promise<void> {
+  //   try {
+  //     const response = await fetch(`${this.API_URL}/${id}`, {
+  //       method: 'DELETE',
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     this.#posts.update((currentPosts) => currentPosts.filter((post) => post.id !== id));
+  //   } catch (error) {
+  //     console.error(`Fehler beim Löschen des Posts ${id}:`, error);
+  //     throw error;
+  //   }
+  // }
+
+
 }

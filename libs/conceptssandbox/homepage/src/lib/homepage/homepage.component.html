@@ -104,7 +104,7 @@
 
 <!-- All Posts API! -->
 
-<!-- ASL NÄCHSTE INPUTFELD FPR EINGABE DINS! -->
+<!-- ASL NÄCHSTE INPUTFELD FPR EINGABE DINS! ------------------------------------------------------------>
 
 <div>
   <h2>Posts</h2>
@@ -132,7 +132,7 @@
 
   @if (allPosts().length > 0) {
   <ul>
-    @for (post of allPosts(); track post.id) {
+    @for (post of allPosts(); track $index) {
     <li>{{ post.title }}</li>
     <li>{{ post.body }}</li>
     }
@@ -140,4 +140,42 @@
   } @else {
   <p>Keine Posts geladen</p>
   }
+
+  <!-- neuer button für delete! ------------------------------------------------------------>
+  <!-- neuer button für Update! ------------------------------------------------------------>
+  <!-- neuer button für Read als Dialog?! ------------------------------------------------------------>
+
+  <!-- --------------------------------------- -->
+  <br />
+  <hr />
+  <!-- bei jedem Klick des Buttons erscheint ein neuer Text in einer Liste der immer gleich ist außer die die Zahl ändert sich!
+   mit Zähler quasi 0. TestText ein erster klick steht dann da 0. TestText 1. TestText  bei einem weiterem klick 0. TestText 1. TestText 2 -->
+  <h3>Methoden Training</h3>
+
+
+  <!-- Macht es vielleicht Sinn eine art Tabelle für lis zu machen und diese per inputFeld oder Dialog uozudaten? Welche Wege gibt es noch? -->
+  <div class="textArea-wrapper">
+    <lib-button
+      [label]="'TestText'"
+      [isPrimary]="true"
+      (customClick)="createNewText()"
+    ></lib-button>
+
+    <ul>
+      @for(textObj of textList; track textObj.text) {
+      <li>
+        <span
+          (click)="updateText(textObj.id)"
+          style="cursor: pointer; color: rgb(255, 255, 255)"
+          onmouseover="this.style.color='rgb(100, 149, 237)'"
+          onmouseout="this.style.color='rgb(255, 255, 255)'"
+          >{{ textObj.text }}</span
+          
+        ><button class="delete-button"
+          (click)="deleteText(textObj.id)"
+        >X</button>
+      </li>
+      }
+    </ul>
+  </div>
 </div>

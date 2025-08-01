@@ -6,9 +6,10 @@ import { Post, Product } from '../models/product.interface';
 import { ButtonComponent } from '@angular-concepts-sandbox/controls';
 import { FormInputComponent } from '@angular-concepts-sandbox/controls';
 import { CreateProductComponent } from '@angular-concepts-sandbox/controls';
+import { PostsStore } from '../store/posts.store';
 
-// export * from './lib/CreateProduct/CreateProduct.component';
 
+// posts-state.interface.ts
 @Component({
   selector: 'lib-homepage',
   templateUrl: './homepage.component.html',
@@ -93,9 +94,7 @@ export class HomepageComponent implements OnInit {
   }
 
   // ShoppingListe
-  private productService: ProductServiceTsService = inject(
-    ProductServiceTsService
-  );
+  private productService: ProductServiceTsService = inject(ProductServiceTsService);
 
   // Diese Methoden Umscreiben, damit sie die Service Methoden nutzen! ----------
   public productsList: Product[] = [];
@@ -174,6 +173,9 @@ export class HomepageComponent implements OnInit {
   // ngOnInit(): void {// }
   // neuer Eintrag!
 
+postsStore = inject(PostsStore);
+
+
   public newPostTitle: string = '';
   public newPostBody: string = '';
 
@@ -185,12 +187,12 @@ export class HomepageComponent implements OnInit {
     this.newPostBody = body;
   }
 
-  allPosts = this.productService.posts; // ← Signal-Referenz
+  allPosts = this.postsStore.posts; // ← Signal-Referenz
   // public posts: Post[] = [];
 
   public async getAllPosts(): Promise<void> {
     try {
-      await this.productService.getAllPosts();
+      await this.postsStore.getAllPosts();
     } catch (error) {
       console.error('Fehler beim Laden der Posts:', error);
     }
@@ -199,14 +201,11 @@ export class HomepageComponent implements OnInit {
   // Neuen Eintrag generieren!
   public async createPost(): Promise<void> {
     try {
-      const newPost = await this.productService.createPost({
+      await this.postsStore.createPost({
         title: this.newPostTitle,
         body: this.newPostBody,
         userId: 1,
       });
-
-      // RICHTIG: Füge den neuen Post zum bestehenden Array hinzu
-      await this.getAllPosts(); // Neu laden oder...
     } catch (error) {
       console.error('Fehler beim Erstellen des Posts:', error);
     }
@@ -222,11 +221,11 @@ export class HomepageComponent implements OnInit {
       // Erstelle ein Update-Objekt mit den neuen Werten
       const updatedData = { ...postToUpdate, title: newTitle, body: newBody };
 
-      const updatedPost = await this.productService.updatePostById(
+      const updatedPost = await this.postsStore.updatePostById(
         postToUpdate.id,
         updatedData // Sende die neuen Daten
       );
-      await this.productService.updatePostById(postToUpdate.id, updatedData);
+      await this.postsStore.updatePostById(postToUpdate.id, updatedData);
 
       // Signal neu laden
       await this.getAllPosts();
@@ -236,12 +235,73 @@ export class HomepageComponent implements OnInit {
   }
 
   // Eintrag löschen!
-  public async deletePost(id: number): Promise<void> {
-    try {
-      await this.productService.deletePostById(id);
-      await this.getAllPosts();
-    } catch (error) {
-      console.error('Fehler beim Löschen des Posts:', error);
+  // public async deletePost(id: number): Promise<void> {
+  //   try {
+  //     await this.productService.deletePostById(id);
+  //     await this.getAllPosts();
+  //   } catch (error) {
+  //     console.error('Fehler beim Löschen des Posts:', error);
+  //   }
+  // }
+
+  // // Methoden Training! --------------------------------------------
+  // // Kann ich hier auch signals verwenden?
+
+  // public textList: string[] = [];
+
+  // public async createNewText() {
+  //   const newText = `Text ${this.textList.length + 1}`;
+  //   this.textList.push(newText);
+  // }
+
+  // // update -------------------------------------
+
+  // public updateText(index: number): void {
+  //   const currentText = this.textList[index];
+  //   const updatedText = prompt('Text aktualisieren:', currentText);
+  //   if (updatedText !== null && updatedText.trim()) {
+  //     this.textList[index] = updatedText;
+  //   }
+  // }
+
+  // delete
+
+  // read
+
+
+
+
+public textList: { id: number; text: string }[] = [];
+
+public createNewText(): void {
+  const newText = {
+    id: Date.now(), // Eindeutige ID basierend auf Timestamp
+    text: `Text ${this.textList.length + 1}`
+  };
+  this.textList.push(newText);
+}
+
+// update mit ID statt Index
+public updateText(id: number): void {
+  const item = this.textList.find(text => text.id === id);
+  if (item) {
+    const updatedText = prompt('Text aktualisieren:', item.text);
+    if (updatedText !== null && updatedText.trim()) {
+      item.text = updatedText;
     }
   }
+}
+
+// // delete mit ID
+public deleteText(id: number): void{
+this.textList = this.textList.filter(text => text.id !== id)
+}
+// public deleteText(id: number): void {
+//   this.textList = this.textList.filter(text => text.id !== id);
+// }
+
+
+
+
+
 }

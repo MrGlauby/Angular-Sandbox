@@ -1,46 +1,55 @@
-.wrapper{
-    border: solid rgb(172, 172, 172) 3px;
-
+.wrapper {
+  border: solid rgb(172, 172, 172) 3px;
 }
 
-
-.wrapper-shopping-list{
-    display: flex;
-    border: solid rgb(172, 172, 172) 3px;
-    padding: 20px;
+.wrapper-shopping-list {
+  display: flex;
+  border: solid rgb(172, 172, 172) 3px;
+  padding: 20px;
 }
 
-
-.shopping-list{
-    display: flex;
+.shopping-list {
+  display: flex;
 }
 
-
-
-
-.product{
-    display: flex;
-    align-items: center;
-    border: solid rgb(172, 172, 172) 3px;
-    padding: 10px;
-    margin-right: 20px;
+.product {
+  display: flex;
+  align-items: center;
+  border: solid rgb(172, 172, 172) 3px;
+  padding: 10px;
+  margin-right: 20px;
 }
 
-
-.euro-wrapper{
-    padding: 0px 15px 0px 0px;
+.euro-wrapper {
+  padding: 0px 15px 0px 0px;
 }
 
-.wrapper-warenkorb{
-    display: flex;
-    align-items: center;
-    border: solid rgb(172, 172, 172) 3px;
-    padding: 20px;
+.wrapper-warenkorb {
+  display: flex;
+  align-items: center;
+  border: solid rgb(172, 172, 172) 3px;
+  padding: 20px;
 }
 
+.textArea-wrapper {
+  align-items: row;
+  border: solid rgb(172, 172, 172) 3px;
+  padding: 10px;
+}
 
-.textArea-wrapper{
-    align-items: row;
-    border: solid rgb(172, 172, 172) 3px;
-    padding: 10px;
+.textArea-wrapper {
+  border: solid rgb(194, 194, 194);
+  padding: 20px;
+  margin: 10px, 10px 10px 10px;
+  border-radius: 20px;
+}
+
+.delete-button {
+  padding: 2px;
+  margin: 4px;
+}
+
+.delete-button:hover {
+  background-color: rgb(255, 61, 61);
+  color: white;
 }
